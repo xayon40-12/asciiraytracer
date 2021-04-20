@@ -1,0 +1,61 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 1de44df3042b5c874827d17e03d5e3be44694972089c738f4a8aa06772bffae6
+
+name:           asciiraytracer
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/xayon40-12/asciiraytracer#readme>
+homepage:       https://github.com/xayon40-12/asciiraytracer#readme
+bug-reports:    https://github.com/xayon40-12/asciiraytracer/issues
+author:         Nathan Touroux
+maintainer:     nathan.touroux@gmail.com
+copyright:      Nathan Touroux
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/xayon40-12/asciiraytracer
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_asciiraytracer
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable asciiraytracer-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_asciiraytracer
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      asciiraytracer
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite asciiraytracer-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_asciiraytracer
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      asciiraytracer
+    , base >=4.7 && <5
+  default-language: Haskell2010
