@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1de44df3042b5c874827d17e03d5e3be44694972089c738f4a8aa06772bffae6
+-- hash: 89cfb4a2d15ac7c2d2828a7f3ec63f4d2b41ed32d7110945c8c7619bcacc27c0
 
 name:           asciiraytracer
 version:        0.1.0.0
@@ -27,6 +27,9 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Shape
+      Shape.Sphere
+      Vec
   other-modules:
       Paths_asciiraytracer
   hs-source-dirs:
@@ -41,19 +44,6 @@ executable asciiraytracer-exe
       Paths_asciiraytracer
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      asciiraytracer
-    , base >=4.7 && <5
-  default-language: Haskell2010
-
-test-suite asciiraytracer-test
-  type: exitcode-stdio-1.0
-  main-is: Spec.hs
-  other-modules:
-      Paths_asciiraytracer
-  hs-source-dirs:
-      test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       asciiraytracer
