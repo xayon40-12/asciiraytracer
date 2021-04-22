@@ -5,6 +5,15 @@ data Vec = Vec
     _y :: Double,
     _z :: Double
   }
+  deriving (Show)
+
+ex = Vec 1 0 0
+
+ey = Vec 0 1 0
+
+ez = Vec 0 0 1
+
+e0 = Vec 0 0 0
 
 infixl 6 .+., .-.
 
@@ -61,4 +70,4 @@ rot v axis theta = c *. x .+. s *. y .+. z
     s = sin theta
 
 mirror :: Vec -> Vec -> Vec
-mirror v axis = 2 *. axis .* (axis .*. v) .-. v
+mirror v normal = v .-. 2 *. normal .* (normal .*. v)

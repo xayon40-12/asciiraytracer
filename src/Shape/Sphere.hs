@@ -3,24 +3,24 @@ module Shape.Sphere where
 import Shape
 import Vec
 
-type Radius = Double
+-- Sphere Pos Radius
+data Sphere = Sphere Vec Double deriving (Show)
 
-data Sphere = Sphere Vec Radius
-
-instance Shape Sphere where
+instance Collidable Sphere where
   cast (Sphere ps r) (Ray pr d) = case delta of
-    0 -> [CNode pos1 n1 t1]
-    _d | _d>0 -> [CNode pos1 n1 t1,CNode pos2 n2 t2]
-    _ -> []
-    where p = pr .-. ps
-          a = d .*. d
-          b = d .*. p * 2
-          c = p .*. p - r*r
-          delta = b*b - 4*a*c
-          sd = sqrt delta
-          t1 = (b-sd)/(2*a)
-          t2 = (b+sd)/(2*a)
-          pos1 = pr .+. t1 *. d
-          pos2 = pr .+. t2 *. d
-          n1 = normalize $ pos1 .-. ps
-          n2 = normalize $ pos2 .-. ps
+    -- t<0 means behind so no collision considered
+    _d | _d >= 0 && t > 0 -> Just $ CNode pos n t
+    _ -> Nothing
+    where
+      p = pr .-. ps
+      a = d .*. d
+      b = d .*. p * 2
+      c = p .*. p - r * r
+      delta = b * b - 4 * a * c
+      sd = sqrt delta
+      t = (if sd < - b then - b - sd else - b + sd) / (2 * a)
+      pos = pr .+. t *. d
+      n = normalize $ pos .-. ps
+
+sphere :: Vec -> Double -> Shape
+sphere pos radius = Shape $ Sphere pos radius
