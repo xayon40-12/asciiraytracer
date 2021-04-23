@@ -1,18 +1,27 @@
+{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE StandaloneDeriving #-}
 
 module Shape where
 
+import Object
 import Render
 import Vec
 
 type Distance = Double
 
--- Ray Pos Dir
-data Ray = Ray Vec Vec deriving (Show)
+data Ray = Ray
+  { _pos :: Vec,
+    _dir :: Vec
+  }
+  deriving (Show)
 
--- Color Red Green Blue
-data Color = Color Double Double Double deriving (Show)
+data Color = Color
+  { _red :: Double,
+    _green :: Double,
+    _blue :: Double
+  }
+  deriving (Show)
 
 lux :: Color -> Double
 lux (Color r g b) = norm (Vec r g b) / 3 ** (1 / 3)
@@ -24,7 +33,6 @@ instance Drawable Color where
       len = length col
       id = min (len -1) (floor $ fromIntegral len * lux c)
 
--- CNode Pos Dir Distance
 data CNode = CNode
   { _pos :: Vec,
     _dir :: Vec,
@@ -38,13 +46,18 @@ instance Drawable CNode where
 
 class Collidable s where
   cast :: s -> Ray -> Maybe CNode
+  contains :: s -> Vec -> Bool
 
-data Shape = forall a. (Collidable a, Show a) => Shape a
+data Shape = forall a. (Collidable a, Show a, Object_ a) => Shape a
 
 deriving instance Show Shape
 
 instance Collidable Shape where
   cast (Shape s) = cast s
+  contains (Shape s) = contains s
+
+instance Object_ Shape where
+  position (Shape s) = position s
 
 -- Colors
 red = Color 1 0 0

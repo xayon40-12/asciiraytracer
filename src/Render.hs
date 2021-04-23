@@ -1,5 +1,3 @@
-{-# LANGUAGE RankNTypes #-}
-
 module Render where
 
 class Drawable d where

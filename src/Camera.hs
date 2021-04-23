@@ -1,5 +1,4 @@
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE RankNTypes #-}
 
 module Camera where
 
@@ -43,4 +42,4 @@ canvas (Camera cp cx cy) (nx, ny) (View w h) obj = res
     xs = [1 .. nx] & map (\x -> w * ((fromIntegral x -0.5) / fromIntegral nx - 0.5))
     ys = [1 .. ny] & map (\y -> h * ((fromIntegral y -0.5) / fromIntegral ny - 0.5))
     ray x y = Ray cp (normalize $ cx .+. y *. cy .+. x *. cz)
-    res = ys & map (\y -> xs & map (\x -> maybe black _color $ cast obj (ray x y)))
+    res = ys & map (\y -> xs & map (\x -> maybe black Shape._color $ cast obj (ray x y)))

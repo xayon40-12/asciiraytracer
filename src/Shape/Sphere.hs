@@ -1,10 +1,15 @@
 module Shape.Sphere where
 
+import Object
 import Shape
 import Vec
 
--- Sphere Pos Radius
-data Sphere = Sphere Vec Double Color deriving (Show)
+data Sphere = Sphere
+  { _pos :: Vec,
+    _radius :: Double,
+    _color :: Color
+  }
+  deriving (Show)
 
 instance Collidable Sphere where
   cast (Sphere ps r col) (Ray pr d) = case delta of
@@ -21,6 +26,10 @@ instance Collidable Sphere where
       t = (if sd < - b then - b - sd else - b + sd) / (2 * a)
       pos = pr .+. t *. d
       n = normalize $ pos .-. ps
+  contains (Sphere ps r _) v = norm2 (v .-. ps) <= r * r
+
+instance Object_ Sphere where
+  position s = Shape.Sphere._pos s
 
 sphere :: Vec -> Double -> Color -> Shape
 sphere pos radius c = Shape $ Sphere pos radius c

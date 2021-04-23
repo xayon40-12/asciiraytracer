@@ -10,3 +10,4 @@ instance Collidable [Shape] where
     where
       go [] = Nothing
       go (Shape s : ss) = nearest (cast s ray) (go ss)
+  contains ss v = foldr (\i a -> contains i v || a) False ss
