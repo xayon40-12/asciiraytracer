@@ -20,7 +20,7 @@ lookat :: Vec -> Vec -> Camera
 lookat pos distantPos = Camera pos (normalize $ distantPos .-. pos) (Vec 0 1 0)
 
 move :: Camera -> Double -> Camera
-move cam distance = cam {_pos = _pos cam .+. distance *. Camera._x cam}
+move cam@(Camera pos x _) distance = cam {_pos = pos .+. distance *. x}
 
 rotate :: Camera -> Double -> Double -> Camera
 rotate cam@(Camera p x y) phi theta = cam {_x = normalize $ rot x' z theta, _y = normalize $ rot y' z theta}
@@ -36,11 +36,11 @@ data View = View
 
 type Size = (Int, Int)
 
-canvas :: (Collidable c) => Camera -> Size -> View -> c -> [[Maybe CNode]]
+canvas :: (Collidable c) => Camera -> Size -> View -> c -> [[Color]]
 canvas (Camera cp cx cy) (nx, ny) (View w h) obj = res
   where
     cz = cx .^. cy
     xs = [1 .. nx] & map (\x -> w * ((fromIntegral x -0.5) / fromIntegral nx - 0.5))
     ys = [1 .. ny] & map (\y -> h * ((fromIntegral y -0.5) / fromIntegral ny - 0.5))
     ray x y = Ray cp (normalize $ cx .+. y *. cy .+. x *. cz)
-    res = ys & map (\y -> xs & map (\x -> cast obj (ray x y)))
+    res = ys & map (\y -> xs & map (\x -> maybe black _color $ cast obj (ray x y)))

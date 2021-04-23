@@ -4,12 +4,12 @@ import Shape
 import Vec
 
 -- Sphere Pos Radius
-data Sphere = Sphere Vec Double deriving (Show)
+data Sphere = Sphere Vec Double Color deriving (Show)
 
 instance Collidable Sphere where
-  cast (Sphere ps r) (Ray pr d) = case delta of
+  cast (Sphere ps r col) (Ray pr d) = case delta of
     -- t<0 means behind so no collision considered
-    _d | _d >= 0 && t > 0 -> Just $ CNode pos n t
+    _d | _d >= 0 && t > 0 -> Just $ CNode pos n col t
     _ -> Nothing
     where
       p = pr .-. ps
@@ -22,5 +22,5 @@ instance Collidable Sphere where
       pos = pr .+. t *. d
       n = normalize $ pos .-. ps
 
-sphere :: Vec -> Double -> Shape
-sphere pos radius = Shape $ Sphere pos radius
+sphere :: Vec -> Double -> Color -> Shape
+sphere pos radius c = Shape $ Sphere pos radius c
