@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2fc9d4bdbb5194c5cb2a3122db711537e9248fad2686afe3083d60e58a642c66
+-- hash: f0516d6c65f8117a1f92326f4e3828d4168a59987059c82f4637631d81e33093
 
 name:           asciiraytracer
 version:        0.1.0.0
@@ -31,6 +31,8 @@ library
       Light
       Object
       Render
+      Render.CNode
+      Render.Color
       Shape
       Shape.Collections
       Shape.Collections.List
