@@ -1,6 +1,8 @@
 module Shape.Sphere where
 
-import Object
+import Render
+import Render.CNode
+import Render.Color
 import Shape
 import Vec
 
@@ -27,9 +29,6 @@ instance Collidable Sphere where
       pos = pr .+. t *. d
       n = normalize $ pos .-. ps
   contains (Sphere ps r _) v = norm2 (v .-. ps) <= r * r
-
-instance Object_ Sphere where
-  position s = Shape.Sphere._pos s
 
 sphere :: Vec -> Double -> Color -> Shape
 sphere pos radius c = Shape $ Sphere pos radius c

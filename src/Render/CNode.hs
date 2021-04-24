@@ -1,6 +1,7 @@
 module Render.CNode where
 
 import Render
+import Render.Color
 import Vec
 
 data CNode = CNode
@@ -10,6 +11,3 @@ data CNode = CNode
     _distance :: Distance
   }
   deriving (Show)
-
-instance Drawable CNode where
-  toString _ = "#"

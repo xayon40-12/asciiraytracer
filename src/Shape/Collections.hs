@@ -1,5 +1,6 @@
 module Shape.Collections where
 
+import Render.CNode
 import Shape
 
 nearest :: Maybe CNode -> Maybe CNode -> Maybe CNode

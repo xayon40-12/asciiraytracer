@@ -1,6 +1,8 @@
 module Shape.Plane where
 
-import Object
+import Render
+import Render.CNode
+import Render.Color
 import Shape
 import Vec
 
@@ -18,10 +20,7 @@ instance Collidable Plane where
       dpr = dp .*. dr
       t = - p / dpr
       pos = pr .+. t *. dr
-  contains (Plane pp dp _) v = (v .-. pp) .*. dp >= 0
-
-instance Object_ Plane where
-  position p = Shape.Plane._pos p
+  contains (Plane pp dp _) v = (v .-. pp) .*. dp <= 0
 
 plane :: Vec -> Vec -> Color -> Shape
 plane pos dir c = Shape $ Plane pos dir c

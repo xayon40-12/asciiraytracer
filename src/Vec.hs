@@ -5,7 +5,9 @@ data Vec = Vec
     _y :: Double,
     _z :: Double
   }
-  deriving (Show)
+
+instance Show Vec where
+  show (Vec x y z) = "(" ++ show x ++ "," ++ show y ++ "," ++ show z ++ ")"
 
 ex = Vec 1 0 0
 
@@ -57,6 +59,9 @@ normalize v = v ./ norm v
 
 neg :: Vec -> Vec
 neg (Vec x y z) = Vec (- x) (- y) (- z)
+
+distance :: Vec -> Vec -> Double
+distance a b = norm $ a .-. b
 
 -- rot :: vec -> axis -> angle -> vec
 rot :: Vec -> Vec -> Double -> Vec
