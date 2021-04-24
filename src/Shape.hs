@@ -1,15 +1,18 @@
 {-# LANGUAGE ExistentialQuantification #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE MonoLocalBinds #-}
 {-# LANGUAGE StandaloneDeriving #-}
 
 module Shape where
 
 import Render
 import Render.CNode
+import Utils
 import Vec
 
 class Collidable s where
-  cast :: s -> Ray -> Maybe CNode
-  contains :: s -> Vec -> Bool
+  cast :: s -> Ray -> [CNode]
+  contains :: (Into Vec v) => s -> v -> Bool
 
 data Shape = forall a. (Collidable a, Show a) => Shape a
 

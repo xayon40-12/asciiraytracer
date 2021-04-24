@@ -7,6 +7,7 @@ import Render
 import Render.CNode
 import Render.Color
 import Shape
+import Shape.Collections
 import Shape.Collections.List
 import Shape.Sphere
 import Vec
@@ -51,9 +52,9 @@ canvas (Camera cp cx cy) (nx, ny) (View w h) obj = res
   where
     cz = cx .^. cy
     xs = [1 .. nx] & map (\x -> w * ((fromIntegral x -0.5) / fromIntegral nx - 0.5))
-    ys = [1 .. ny] & map (\y -> h * ((fromIntegral y -0.5) / fromIntegral ny - 0.5))
+    ys = [1 .. ny] & map (\y -> h * (0.5 - (fromIntegral y + 0.5) / fromIntegral ny))
     ray x y = Ray cp (normalize $ cx .+. y *. cy .-. x *. cz)
-    res = ys & map (\y -> xs & map (\x -> maybe black Render.CNode._color $ cast obj (ray x y)))
+    res = ys & map (\y -> xs & map (\x -> maybe black Render.CNode._color $ nearest $ cast obj (ray x y)))
 
 disp :: [[Color]] -> String
 disp = unlines . map (concatMap show)

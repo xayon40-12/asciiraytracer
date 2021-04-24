@@ -19,7 +19,7 @@ e0 = Vec 0 0 0
 
 infixl 6 .+., .-.
 
-infixl 7 .*., .*, *., ./, /., .^., .|.
+infixl 7 .*., .*, *., ./, .^., .|.
 
 (.+.) :: Vec -> Vec -> Vec
 (Vec x1 y1 z1) .+. (Vec x2 y2 z2) = Vec (x1 + x2) (y1 + y2) (z1 + z2)
@@ -38,9 +38,6 @@ d *. (Vec x y z) = Vec (x * d) (y * d) (z * d)
 
 (./) :: Vec -> Double -> Vec
 (Vec x y z) ./ d = Vec (x / d) (y / d) (z / d)
-
-(/.) :: Double -> Vec -> Vec
-d /. (Vec x y z) = Vec (x / d) (y / d) (z / d)
 
 (.^.) :: Vec -> Vec -> Vec
 (Vec x1 y1 z1) .^. (Vec x2 y2 z2) = Vec (y1 * z2 - z1 * y2) (z1 * x2 - x1 * z2) (x1 * y2 - y1 * x2)
@@ -63,9 +60,9 @@ neg (Vec x y z) = Vec (- x) (- y) (- z)
 distance :: Vec -> Vec -> Double
 distance a b = norm $ a .-. b
 
--- rot :: vec -> axis -> angle -> vec
+-- rot :: axis -> vec -> angle -> vec
 rot :: Vec -> Vec -> Double -> Vec
-rot v axis theta = c *. x .+. s *. y .+. z
+rot axis v theta = c *. x .+. s *. y .+. z
   where
     z = n .* (n .*. v)
     x = v .-. z

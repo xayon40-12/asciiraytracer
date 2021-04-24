@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fa36bdc9dc1064c6b31d10ec8e975ebc52e91053ef59d2427093eda970c4197c
+-- hash: d96429bc6bcefde52f0d3e53b6a2112609156337d987f2b5a91c99ed39fa8f68
 
 name:           asciiraytracer
 version:        0.1.0.0
@@ -34,10 +34,14 @@ library
       Render.Color
       Shape
       Shape.Collections
+      Shape.Collections.Intersection
       Shape.Collections.List
-      Shape.List
+      Shape.Collections.Location
+      Shape.Collections.Substraction
+      Shape.Collections.Union
       Shape.Plane
       Shape.Sphere
+      Utils
       Vec
   other-modules:
       Paths_asciiraytracer
