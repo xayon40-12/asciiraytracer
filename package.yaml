@@ -7,7 +7,7 @@ maintainer:          "nathan.touroux@gmail.com"
 copyright:           "Nathan Touroux"
 
 extra-source-files:
-- README.md
+- README.org
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
@@ -20,6 +20,7 @@ description:         Please see the README on GitHub at <https://github.com/xayo
 
 dependencies:
 - base >= 4.7 && < 5
+- text
 
 library:
   source-dirs: src

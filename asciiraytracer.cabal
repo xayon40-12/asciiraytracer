@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d96429bc6bcefde52f0d3e53b6a2112609156337d987f2b5a91c99ed39fa8f68
+-- hash: 705b2697d462d1eea5c57b7d3ce214e2ae26154ab2ee101958064f4e81412fce
 
 name:           asciiraytracer
 version:        0.1.0.0
@@ -18,7 +18,7 @@ license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
-    README.md
+    README.org
 
 source-repository head
   type: git
@@ -27,7 +27,6 @@ source-repository head
 library
   exposed-modules:
       Camera
-      Lib
       Light
       Render
       Render.CNode
@@ -49,6 +48,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , text
   default-language: Haskell2010
 
 executable asciiraytracer-exe
@@ -61,4 +61,5 @@ executable asciiraytracer-exe
   build-depends:
       asciiraytracer
     , base >=4.7 && <5
+    , text
   default-language: Haskell2010

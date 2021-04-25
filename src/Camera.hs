@@ -55,6 +55,3 @@ canvas (Camera cp cx cy) (nx, ny) (View w h) obj = res
     ys = [1 .. ny] & map (\y -> h * (0.5 - (fromIntegral y + 0.5) / fromIntegral ny))
     ray x y = Ray cp (normalize $ cx .+. y *. cy .-. x *. cz)
     res = ys & map (\y -> xs & map (\x -> maybe black Render.CNode._color $ nearest $ cast obj (ray x y)))
-
-disp :: [[Color]] -> String
-disp = unlines . map (concatMap show)

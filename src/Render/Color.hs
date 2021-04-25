@@ -1,5 +1,8 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Render.Color where
 
+import qualified Data.Text as T
 import Render
 import Vec
 
@@ -35,3 +38,14 @@ majanta = Color 1 0 1
 black = Color 0 0 0
 
 white = Color 1 1 1
+
+disp :: [[Color]] -> String
+disp = unlines . map (concatMap show)
+
+colorize :: Color -> T.Text
+colorize (Color r g b) = "\ESC[48;5;" <> T.pack (show code) <> "m  "
+  where
+    code = 16 + foldl (\a i -> min 5 (floor (i * 6)) + 6 * a) 0 [r, g, b]
+
+dispc :: [[Color]] -> T.Text
+dispc = ("\ESC[2J" <>) . foldl (<>) "" . map ((<> "\ESC[0m\n") . foldl (<>) "" . map colorize)
