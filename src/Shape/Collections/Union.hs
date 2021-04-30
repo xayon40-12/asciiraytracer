@@ -13,7 +13,7 @@ instance Collidable Union where
     where
       cn1 = filter (not . contains b) (cast a r)
       cn2 = filter (not . contains a) (cast b r)
-  contains (Union a b) v = contains a v && contains b v
+  contains (Union a b) v = contains a v || contains b v
 
 union :: Shape -> Shape -> Shape
 union a b = Shape $ Union a b
