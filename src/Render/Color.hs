@@ -4,7 +4,7 @@
 module Render.Color where
 
 import Control.Parallel.Strategies
-import qualified Data.ByteString.Char8 as B
+import qualified Data.Text as T
 import GHC.Generics (Generic)
 import Render
 import Vec
@@ -48,10 +48,10 @@ white = Color 1 1 1
 disp :: [[Color]] -> String
 disp = unlines . map (concatMap show)
 
-colorize :: Color -> B.ByteString
-colorize (Color r g b) = "\ESC[48;5;" <> B.pack (show code) <> "m  "
+colorize :: Color -> T.Text
+colorize (Color r g b) = "\ESC[48;5;" <> T.pack (show code) <> "m  "
   where
     code = 16 + foldl (\a i -> min 5 (floor (i * 6)) + 6 * a) 0 [r, g, b]
 
-dispc :: [[Color]] -> B.ByteString
-dispc = ("\ESC[2J" <>) . foldl (<>) "" . parMap rdeepseq ((<> "\ESC[0m\n") . foldl (<>) "" . map colorize)
+dispc :: [[Color]] -> T.Text
+dispc = ("\ESC[2J" <>) . foldl (<>) "" . map ((<> "\ESC[0m\n") . foldl (<>) "" . map colorize)
