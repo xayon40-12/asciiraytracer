@@ -1,11 +1,13 @@
+{-# LANGUAGE BangPatterns #-}
+
 module Main where
 
 import Camera
 import Control.Concurrent
 import Control.Monad
+import qualified Data.ByteString.Char8 as B
 import Data.Function ((&))
 import Data.Maybe
-import qualified Data.Text.IO as T
 import Render
 import qualified Render.CNode
 import Render.Color
@@ -16,7 +18,11 @@ import Shape.Collections.Location
 import Shape.Collections.Substraction
 import Shape.Collections.Union
 import Shape.Sphere
+import System.CPUTime
+import Text.Printf
 import Vec
+
+diff s e = (fromIntegral (e - s) / 10 ^ 12) :: Double
 
 main :: IO ()
 main = do
@@ -34,7 +40,13 @@ main = do
   let uni = location [Scale 0.5, Rotate ey (3 * pi / 4), Translate ((-1) *. ey .+. 1 *. ez)] $ s >.< s2 >.< s3
   let sub = location [Scale 0.5, Rotate ey (- pi / 4), Translate ((-2) *. ez)] $ s <.< s2 <.< s3
   let o = [int, uni, sub, st]
+  let f = 600
   forM_ [0 ..] $ \i -> do
-    T.putStrLn $ dispc $ canvas (lookat ((2 + i * 0.01) *. ex) e0) (100, 100) (View 1 1) o
-
---threadDelay 1000
+    start <- getCPUTime
+    let !can = canvas (lookat (rot ey (10 *. ex) (i / f * 2 * pi)) e0) (100, 100) (View 1 1) o
+    ecan <- getCPUTime
+    let !disp = dispc can
+    edis <- getCPUTime
+    B.putStrLn disp
+    end <- getCPUTime
+    printf "canvas: %0.3f s\ndispc: %0.3f s\nputStrLn: %0.3f s\n" (diff start ecan) (diff ecan edis) (diff edis end)
