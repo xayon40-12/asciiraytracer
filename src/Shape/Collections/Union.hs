@@ -18,7 +18,7 @@ instance Collidable Union where
 union :: Shape -> Shape -> Shape
 union a b = Shape $ Union a b
 
-infixr 7 >.<
+infixr 6 >.<
 
 (>.<) :: Shape -> Shape -> Shape
 (>.<) = union

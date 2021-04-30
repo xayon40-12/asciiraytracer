@@ -18,7 +18,9 @@ instance Collidable Substraction where
 substraction :: Shape -> Shape -> Shape
 substraction a b = Shape $ Substraction a b
 
-infixr 7 >.>, <.<
+infixr 5 >.>
+
+infixl 5 <.<
 
 (>.>) :: Shape -> Shape -> Shape
 (>.>) = flip substraction
