@@ -27,7 +27,7 @@ apply s@(Scale _) (Ray p d) = Ray (vapply s p) (vapply s d)
 unapply :: Motion -> CNode -> CNode
 unapply (Translate v) (CNode pos dir col d) = CNode (pos .+. v) dir col d
 unapply (Rotate axis angle) (CNode pos dir col d) = CNode (rot axis pos angle) (rot axis dir angle) col d
-unapply (Scale s) (CNode pos dir col d) = CNode (pos .* s) dir col (d * s)
+unapply (Scale s) (CNode pos dir col d) = CNode (pos .* s) dir col d
 
 location :: [Motion] -> Shape -> Shape
 location ms s = Shape $ Location ms s
