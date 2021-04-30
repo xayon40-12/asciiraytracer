@@ -1,8 +1,11 @@
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Render.Color where
 
+import Control.Parallel.Strategies
 import qualified Data.Text as T
+import GHC.Generics (Generic)
 import Render
 import Vec
 
@@ -11,6 +14,9 @@ data Color = Color
     _green :: Double,
     _blue :: Double
   }
+  deriving (Generic)
+
+instance NFData Color
 
 lux :: Color -> Double
 lux (Color r g b) = norm (Vec r g b) / 3 ** (1 / 3)
@@ -48,4 +54,4 @@ colorize (Color r g b) = "\ESC[48;5;" <> T.pack (show code) <> "m  "
     code = 16 + foldl (\a i -> min 5 (floor (i * 6)) + 6 * a) 0 [r, g, b]
 
 dispc :: [[Color]] -> T.Text
-dispc = ("\ESC[2J" <>) . foldl (<>) "" . map ((<> "\ESC[0m\n") . foldl (<>) "" . map colorize)
+dispc = ("\ESC[2J" <>) . foldl (<>) "" . parMap rdeepseq ((<> "\ESC[0m\n") . foldl (<>) "" . map colorize)

@@ -1,7 +1,9 @@
+{-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 
 module Camera where
 
+import Control.Parallel.Strategies
 import Data.Function ((&))
 import Render
 import Render.CNode
@@ -50,8 +52,8 @@ infixr 8 .:
 canvas :: (Collidable c) => Camera -> Size -> View -> c -> [[Color]]
 canvas (Camera cp cx cy) (nx, ny) (View w h) obj = res
   where
-    cz = cx .^. cy
-    xs = [1 .. nx] & map (\x -> w * ((fromIntegral x -0.5) / fromIntegral nx - 0.5))
-    ys = [1 .. ny] & map (\y -> h * (0.5 - (fromIntegral y + 0.5) / fromIntegral ny))
+    !cz = cx .^. cy
+    !xs = [1 .. nx] & map (\x -> w * ((fromIntegral x -0.5) / fromIntegral nx - 0.5))
+    !ys = [1 .. ny] & map (\y -> h * (0.5 - (fromIntegral y + 0.5) / fromIntegral ny))
     ray x y = Ray cp (normalize $ cx .+. y *. cy .-. x *. cz)
-    res = ys & map (\y -> xs & map (\x -> maybe black Render.CNode._color $ nearest $ cast obj (ray x y)))
+    !res = ys & parMap rdeepseq (\y -> xs & map (\x -> maybe black Render.CNode._color $ nearest $ cast obj (ray x y)))

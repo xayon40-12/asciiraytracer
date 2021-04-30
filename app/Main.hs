@@ -3,6 +3,7 @@ module Main where
 import Camera
 import Control.Concurrent
 import Control.Monad
+import Data.Function ((&))
 import Data.Maybe
 import qualified Data.Text.IO as T
 import Render
@@ -19,6 +20,12 @@ import Vec
 
 main :: IO ()
 main = do
+  let x = ez
+  let y = rot ex x (pi / 3)
+  let n = 3
+  let r = 0.5
+  let ss = [0 .. n -1] & concatMap (\i -> [0 .. n -1 - i] & map (\j -> sphere (i *. x .+. j *. y) r (Color 1 0.2 0.3)))
+  let st = sphere (((n -1) / 2 / sqrt 2) *. (x .+. y) .+. (n * r) *. ex) (n * r) (Color 0 1 1) >.> foldr (>.<) (head ss) (tail ss)
   let d = 3
   let s = sphere e0 1 (Color 1 0 0)
   let s2 = sphere ez 1 (Color 0 1 0)
@@ -26,7 +33,8 @@ main = do
   let int = location [Scale 2, Translate (2 *. ey)] $ s <.> s2 <.> s3
   let uni = location [Scale 0.5, Rotate ey (3 * pi / 4), Translate ((-1) *. ey .+. 1 *. ez)] $ s >.< s2 >.< s3
   let sub = location [Scale 0.5, Rotate ey (- pi / 4), Translate ((-2) *. ez)] $ s <.< s2 <.< s3
-  let o = [int, uni, sub]
+  let o = [int, uni, sub, st]
   forM_ [0 ..] $ \i -> do
-    T.putStrLn $ dispc $ canvas (lookat ((i * 0.01) *. ex) ex) (100, 100) (View 1 1) o
-    threadDelay 10000
+    T.putStrLn $ dispc $ canvas (lookat ((2 + i * 0.01) *. ex) e0) (100, 100) (View 1 1) o
+
+--threadDelay 1000

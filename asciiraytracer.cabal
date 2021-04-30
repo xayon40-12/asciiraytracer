@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 705b2697d462d1eea5c57b7d3ce214e2ae26154ab2ee101958064f4e81412fce
+-- hash: 35d864aac6690ba310be8d2d105a1da4f85fa1aa62030e60234f16b036bd12d7
 
 name:           asciiraytracer
 version:        0.1.0.0
@@ -48,6 +48,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , parallel
     , text
   default-language: Haskell2010
 
@@ -57,9 +58,10 @@ executable asciiraytracer-exe
       Paths_asciiraytracer
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -O2 -rtsopts -with-rtsopts=-N
   build-depends:
       asciiraytracer
     , base >=4.7 && <5
+    , parallel
     , text
   default-language: Haskell2010

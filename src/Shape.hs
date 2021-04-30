@@ -1,6 +1,5 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE FlexibleContexts #-}
---{-# LANGUAGE MonoLocalBinds #-}
 {-# LANGUAGE StandaloneDeriving #-}
 
 module Shape where
